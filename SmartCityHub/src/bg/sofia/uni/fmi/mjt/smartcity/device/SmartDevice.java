@@ -1,0 +1,40 @@
+package bg.sofia.uni.fmi.mjt.smartcity.device;
+
+import bg.sofia.uni.fmi.mjt.smartcity.enums.DeviceType;
+
+import java.time.LocalDateTime;
+
+public interface SmartDevice extends Comparable {
+
+    @Override
+    int compareTo(Object o);
+
+    /**
+     * Returns the ID of the device.
+     * @return
+     */
+    String getId();
+
+    /**
+     * Returns the name of the device.
+     */
+    String getName();
+
+    /**
+     * Returns the power consumption of the device.
+     * For example, a lamp may consume 1kW/hour.
+     */
+    double getPowerConsumption();
+
+    /**
+     * Returns the date and time of device installation.
+     * This is a time in the past when the device was 'physically' installed.
+     * It is not related to the time when the device is registered in the Hub.
+     */
+    LocalDateTime getInstallationDateTime();
+
+    /**
+     * Returns the type of the device.
+     */
+    DeviceType getType();
+}
