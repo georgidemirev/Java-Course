@@ -1,8 +1,8 @@
 package bg.sofia.uni.fmi.mjt.shopping;
 
-import java.util.Collection;
-
 import bg.sofia.uni.fmi.mjt.shopping.item.Item;
+
+import java.util.Collection;
 
 public interface ShoppingCart {
 
@@ -25,8 +25,7 @@ public interface ShoppingCart {
      * the cart; If the same item has been added already, then the number of
      * these items increases by one
      *
-     * @param item
-     *            the item to be added
+     * @param item the item to be added
      */
     void addItem(Item item);
 
@@ -34,8 +33,7 @@ public interface ShoppingCart {
      * Removes the item from the shopping cart. If there is more than one of the
      * same item, then their number decreases by one
      *
-     * @param item
-     *            the item to be removed
+     * @param item the item to be removed
      */
     void removeItem(Item item) throws ItemNotFoundException;
 

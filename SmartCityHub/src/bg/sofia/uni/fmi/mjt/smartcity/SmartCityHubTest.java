@@ -60,7 +60,7 @@ public class SmartCityHubTest {
     @Test(expected = DeviceNotFoundException.class)
     public void testUnregisterAbsentDevice() throws DeviceNotFoundException, DeviceAlreadyRegisteredException {
         hub.register(new SmartCamera(NAME_ONE, 1, LocalDateTime.now()));
-        hub.unregister(new SmartLamp(NAME_THREE, 2, LocalDateTime.now()));
+        hub.unregister(new SmartLamp(NAME_ONE, 1, LocalDateTime.now()));
     }
 
     @Test

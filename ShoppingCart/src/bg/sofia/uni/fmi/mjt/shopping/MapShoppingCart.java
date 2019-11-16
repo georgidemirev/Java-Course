@@ -1,14 +1,8 @@
 package bg.sofia.uni.fmi.mjt.shopping;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import bg.sofia.uni.fmi.mjt.shopping.item.Item;
+
+import java.util.*;
 
 public class MapShoppingCart implements ShoppingCart {
 
@@ -21,13 +15,11 @@ public class MapShoppingCart implements ShoppingCart {
 
     @Override
     public void addItem(Item item) {
-        if (item != null) {
-            Integer occurrences = items.get(item);
-            if (occurrences == null) {
-                occurrences = new Integer(0);
-            }
-            items.put(item, ++occurrences);
+        if (item == null) {
+            throw new IllegalArgumentException();
         }
+        int occurrences = items.get(item);
+        items.put(item, ++occurrences);
     }
 
     @Override

@@ -1,11 +1,13 @@
 package bg.sofia.uni.fmi.mjt.shopping.item;
 
+import java.util.Objects;
+
 public interface Item {
 
-    public String getName();
+    String getName();
 
-    public String getDescription();
+    String getDescription();
 
-    public double getPrice();
+    double getPrice();
 
 }

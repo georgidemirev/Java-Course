@@ -1,27 +1,14 @@
 package bg.sofia.uni.fmi.mjt.shopping;
 
-import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+        ListShoppingCartTest.class,
+        MapShoppingCartTest.class
+})
 
 public class ShoppingCartTest {
-
-    @org.junit.Test
-    public void getUniqueItems() {
-    }
-
-    @org.junit.Test
-    public void getSortedItems() {
-    }
-
-    @org.junit.Test
-    public void addItem() {
-    }
-
-    @org.junit.Test
-    public void removeItem() {
-    }
-
-    @org.junit.Test
-    public void getTotal() {
-    }
-
 }
