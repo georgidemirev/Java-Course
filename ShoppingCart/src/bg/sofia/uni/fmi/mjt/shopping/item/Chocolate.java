@@ -9,7 +9,7 @@ public class Chocolate implements Item {
     private double price = 0;
 
     public Chocolate(String name, String desc, double price) {
-        if(name == null || desc == null || price <= 0){
+        if (name == null || desc == null || price <= 0) {
             throw new IllegalArgumentException();
         }
         this.name = name;

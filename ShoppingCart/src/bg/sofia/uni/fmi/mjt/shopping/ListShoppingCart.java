@@ -15,7 +15,7 @@ public class ListShoppingCart implements ShoppingCart {
 
     @Override
     public void addItem(Item item) {
-        if(item == null){
+        if (item == null) {
             throw new IllegalArgumentException();
         }
         list.add(item);
@@ -23,27 +23,25 @@ public class ListShoppingCart implements ShoppingCart {
 
     @Override
     public void removeItem(Item item) throws ItemNotFoundException {
+        if (item == null) {
+            throw new IllegalArgumentException();
+        }
         if (!list.contains(item)) {
             throw new ItemNotFoundException();
         }
-
-        for (Item i : list) {
-            if (i.equals(item)) {
-                list.remove(i);
-            }
-        }
+        list.remove(item);
     }
 
     @Override
     public double getTotal() {
         double total = 0;
-        for (Item item : list) {
-            total = +item.getPrice();
+        for (Item i : list) {
+            total += i.getPrice();
         }
         return total;
     }
 
-    private HashMap<Item, Integer> Map() {
+    private HashMap<Item, Integer> map() {
         HashMap<Item, Integer> temp = new HashMap<Item, Integer>();
         for (Item item : list) {
             if (!temp.containsKey(item))
@@ -56,13 +54,16 @@ public class ListShoppingCart implements ShoppingCart {
 
     @Override
     public Set<Item> getSortedItems() {
-        HashMap<Item, Integer> temp = Map();
-        TreeMap<Item, Integer> itemsMap = new TreeMap<>(new Comparator<Item>() {
+        HashMap<Item, Integer> temp = map();
+        Set<Item> itemsSet = new TreeSet<>(new Comparator<Item>() {
             public int compare(Item o1, Item o2) {
-                return temp.get(o2).compareTo(temp.get(o1));
+                if (temp.get(o1) > (temp.get(o2))) {
+                    return -1;
+                }
+                return 1;
             }
         });
-        itemsMap.putAll(temp);
-        return itemsMap.keySet();
+        itemsSet.addAll(temp.keySet());
+        return itemsSet;
     }
 }

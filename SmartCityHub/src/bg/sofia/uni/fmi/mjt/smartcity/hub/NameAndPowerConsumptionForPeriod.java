@@ -2,8 +2,8 @@ package bg.sofia.uni.fmi.mjt.smartcity.hub;
 
 public class NameAndPowerConsumptionForPeriod implements Comparable{
 
-    private double powerConsumption;
-    private String name;
+    private final double powerConsumption;
+    private final String name;
 
     public NameAndPowerConsumptionForPeriod(double powerConsumption, String name) {
         this.powerConsumption = powerConsumption;

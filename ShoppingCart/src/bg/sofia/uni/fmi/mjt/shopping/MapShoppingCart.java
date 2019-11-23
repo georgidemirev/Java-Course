@@ -18,22 +18,32 @@ public class MapShoppingCart implements ShoppingCart {
         if (item == null) {
             throw new IllegalArgumentException();
         }
-        int occurrences = items.get(item);
-        items.put(item, ++occurrences);
+        if (items.containsKey(item)) {
+            int occurrences = items.get(item);
+            items.put(item, ++occurrences);
+        } else {
+            items.put(item, 1);
+        }
     }
 
     @Override
     public void removeItem(Item item) throws ItemNotFoundException {
+        if (item == null) {
+            throw new IllegalArgumentException();
+        }
         if (!items.containsKey(item)) {
             throw new ItemNotFoundException();
         }
-        Integer occurrences = items.get(item);
-        items.put(item, occurrences--);
+        int occurrences = items.get(item);
+        if (occurrences == 1) {
+            items.remove(item);
+        }
+        items.put(item, --occurrences);
     }
 
     @Override
     public double getTotal() {
-        int total = 0;
+        double total = 0;
         for (Map.Entry<Item, Integer> e : items.entrySet()) {
             total += e.getKey().getPrice();
         }
@@ -42,13 +52,16 @@ public class MapShoppingCart implements ShoppingCart {
 
     @Override
     public Collection<Item> getSortedItems() {
-        List<Item> itemsList = new ArrayList<>(items.keySet());
-        Collections.sort(itemsList, new Comparator<Item>() {
+        Set<Item> itemsSet = new TreeSet<>(new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
-                return Double.compare(o1.getPrice(), o2.getPrice());
+                if (items.get(o1) > items.get(o2)) {
+                    return -1;
+                }
+                return 1;
             }
         });
-        return itemsList;
+        itemsSet.addAll(items.keySet());
+        return itemsSet;
     }
 }
