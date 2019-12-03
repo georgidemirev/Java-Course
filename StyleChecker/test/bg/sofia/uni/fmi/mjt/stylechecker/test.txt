@@ -1,0 +1,48 @@
+doSomething(); counter++; doSomethingElse(counter);
+
+doSomething();
+counter++;
+doSomethingElse(counter);
+
+doSomething;;;;
+
+import java.util.*;
+
+import java.util.Date;
+import java.util.List;
+
+public static void main(String... args)
+{
+
+}
+
+public static void main(String... args) {
+
+}
+
+package gov.nasa.deepSpace;
+package gov.nasa.deep_space;
+package gov.NASA.deepSpace;
+
+package gov.nasa.deepspace;
+
+
+
+
+package bg.uni_sofia.fmi.mjt;
+
+import java.lang.*;
+
+public class Test {
+
+    public static void sayHello()
+    {
+        String hello = "Hey, it's Hannah, Hannah Baker. That's right. Don't adjust your... whatever device you're listening to this on. It's me, live and in stereo.";
+        System.out.println(hello);
+    }
+
+    public static void main(String[] args) {
+        sayHello();sayHello();sayHello();sayHello();sayHello();sayHello();sayHello();sayHello();sayHello();sayHello();sayHello();
+    }
+
+}
