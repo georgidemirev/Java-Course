@@ -2,70 +2,107 @@ package bg.sofia.uni.fmi.mjt.youtube;
 
 import bg.sofia.uni.fmi.mjt.youtube.model.TrendingVideo;
 
-import java.io.*;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class YoutubeTrendsExplorer {
 
-    HashSet<TrendingVideo> videos = new HashSet<>();
+    private static final int MAX_VIEWS = 100000;
+    private static final int LIMIT_TITLES = 3;
+    private static final int STARTING_TREND_OF_VIDEO = 1;
+    private HashMap<TrendingVideo, Integer> videos = new HashMap<>();
+    private List<TrendingVideo> list = new ArrayList<>();
 
     /**
      * Loads the dataset from the given {@code dataInput} stream.
      */
     public YoutubeTrendsExplorer(InputStream dataInput) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(dataInput.toString()))){//"c:\\users\\georgi\\desktop\\USvideos.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(dataInput))) {
             String line = reader.readLine();
-            while( line != null) {
-
-                // read() reads the next byte of data from the input stream.
-                // The value byte is returned as an int in the range 0 to 255.
-                // If no byte is available because the end of the stream
-                // has been reached, the value -1 is returned
-                videos.add(TrendingVideo.createTrendingVideo(line));
+            line = reader.readLine();
+            while (line != null) {
+                if (line.length() > 0) {
+                    TrendingVideo video = TrendingVideo.createTrendingVideo(line);
+                    list.add(video);
+                    if (!videos.containsKey(video)) {
+                        videos.put(video, STARTING_TREND_OF_VIDEO);
+                    } else {
+                        int size = videos.get(video);
+                        videos.put(video, size + 1);
+                    }
+                }
                 line = reader.readLine();
             }
         }
     }
 
     /**
-     * Returns all videos loaded from the dataset.
+     * Returns all videos loaded from the dataset
      **/
     public Collection<TrendingVideo> getTrendingVideos() {
-        return null;
+        return list;
     }
 
     // Other methods ...
 
-    public String findIdOfLeastLikedVideo() throws IOException {
-        videos.stream().map(TrendingVideo::getDislikes).max(Comparator<? super Long >);
-        return null;
-    };
+    public String findIdOfLeastLikedVideo() {
+        TrendingVideo video = videos
+                .keySet()
+                .stream()
+                .min(Comparator.comparing(TrendingVideo::getLikes))
+                .orElseThrow(NoSuchElementException::new);
+        return video.getId();
+    }
 
-    public String findIdOfMostLikedLeastDislikedVideo(){
-        return null;
+    public String findIdOfMostLikedLeastDislikedVideo() {
+        TrendingVideo video = videos
+                .keySet()
+                .stream()
+                .max(Comparator.comparing(TrendingVideo::getLikesMinusDislikes))
+                .orElseThrow(NoSuchElementException::new);
+        return video.getId();
+    }
 
-    };
+    public List<String> findDistinctTitlesOfTop3VideosByViews() {
+        return videos
+                .keySet()
+                .stream()
+                .sorted(Comparator.comparing(TrendingVideo::getViews).reversed())
+                .limit(LIMIT_TITLES)
+                .map(TrendingVideo::getTitle)
+                .collect(Collectors.toList());
+    }
 
-    public List<String> findDistinctTitlesOfTop3VideosByViews(){
-        return null;
-    };
+    public String findIdOfMostTaggedVideo() {
+        TrendingVideo video = videos
+                .keySet()
+                .stream()
+                .max(Comparator.comparing(TrendingVideo::getNumberOfTags))
+                .orElseThrow(NoSuchElementException::new);
+        return video.getId();
 
-    public String findIdOfMostTaggedVideo(){
-        return null;
+    }
 
-    };
+    public String findTitleOfFirstVideoTrendingBefore100KViews() {
+        TrendingVideo video = list
+                .stream()
+                .filter(x -> x.getViews() < MAX_VIEWS)
+                .min(Comparator.comparing(TrendingVideo::getPublishDate))
+                .orElseThrow(NoSuchElementException::new);
+        return video.getTitle();
+    }
 
-    public String findTitleOfFirstVideoTrendingBefore100KViews(){
-        return null;
-
-    };
-
-    public String findIdOfMostTrendingVideo(){
-        return null;
-
-    };
-
+    public String findIdOfMostTrendingVideo() {
+        TrendingVideo video = videos
+                .entrySet()
+                .stream()
+                .max(Comparator.comparing(Map.Entry::getValue))
+                .map(Map.Entry::getKey)
+                .orElseThrow(NoSuchElementException::new);
+        return video.getId();
+    }
 }

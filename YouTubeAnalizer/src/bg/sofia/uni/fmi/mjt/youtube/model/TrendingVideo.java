@@ -25,8 +25,8 @@ public final class TrendingVideo {
     private long likes;
     private long dislikes;
 
-    public TrendingVideo(String id, String title, LocalDate publishDate,
-                         Set<String> tags, long views, long likes, long dislikes) {
+    private TrendingVideo(String id, String title, LocalDate publishDate,
+                          Set<String> tags, long views, long likes, long dislikes) {
         this.id = id;
         this.title = title;
         this.publishDate = publishDate;
@@ -60,6 +60,14 @@ public final class TrendingVideo {
 
         return new TrendingVideo(id, title, publishDate, tags, views, likes, dislikes);
 
+    }
+
+    public long getLikesMinusDislikes() {
+        return likes - dislikes;
+    }
+
+    public int getNumberOfTags() {
+        return tags.size();
     }
 
     public String getId() {
